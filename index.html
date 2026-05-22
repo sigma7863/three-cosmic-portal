@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cosmic Particle Portal | 3D WebGL Web Experience</title>
+    <!-- Google Fonts for futuristic cyberpunk theme -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Outfit:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- WebGL Canvas Background -->
+    <canvas id="webgl"></canvas>
+
+    <!-- Sci-Fi Cybernetic Dashboard HUD -->
+    <div class="hud-container">
+      
+      <!-- HEADER PANEL -->
+      <header class="hud-header glass-card">
+        <div class="hud-tag">SYSTEM STATUS: ACTIVE</div>
+        <h1 class="hud-title">COSMIC PORTAL</h1>
+        <p class="hud-subtitle">3D GPU-Morphing Particle Accelerator</p>
+      </header>
+
+      <!-- CONTROL CENTER (LEFT SIDE) -->
+      <section class="hud-controls glass-card">
+        <div class="control-group">
+          <h2 class="control-label">🌌 Shape Selector <span>形態選択</span></h2>
+          <div class="btn-grid">
+            <button class="hud-btn active" id="btn-nebula" data-shape="0">星雲系 (Nebula)</button>
+            <button class="hud-btn" id="btn-blackhole" data-shape="1">黒穴 (Black Hole)</button>
+            <button class="hud-btn" id="btn-dna" data-shape="2">遺伝子 (Double Helix)</button>
+            <button class="hud-btn" id="btn-torus" data-shape="3">トーラス (Torus)</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <h2 class="control-label">🎨 Color Spectrum <span>光彩色調</span></h2>
+          <div class="btn-grid grid-2">
+            <button class="hud-btn theme-btn active" id="theme-cyber" data-theme="0">Neon Cyber</button>
+            <button class="hud-btn theme-btn" id="theme-aurora" data-theme="1">Aurora Teal</button>
+            <button class="hud-btn theme-btn" id="theme-solar" data-theme="2">Solar Flare</button>
+            <button class="hud-btn theme-btn" id="theme-cosmic" data-theme="3">Cosmic Void</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <h2 class="control-label">🎛️ Dimensional Adjusters <span>パラメータ調整</span></h2>
+          
+          <div class="slider-row">
+            <div class="slider-info">
+              <span>VORTEX SPEED (自転速度)</span>
+              <span id="val-speed">1.0</span>
+            </div>
+            <input type="range" id="slider-speed" min="0" max="3" step="0.1" value="1.0" class="hud-slider" />
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-info">
+              <span>NOISE AMPLITUDE (波動幅)</span>
+              <span id="val-noise-amp">0.3</span>
+            </div>
+            <input type="range" id="slider-noise-amp" min="0" max="1.5" step="0.05" value="0.3" class="hud-slider" />
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-info">
+              <span>NOISE FREQUENCY (波動周波数)</span>
+              <span id="val-noise-freq">0.2</span>
+            </div>
+            <input type="range" id="slider-noise-freq" min="0.05" max="0.8" step="0.01" value="0.2" class="hud-slider" />
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-info">
+              <span>MOUSE GRAVITY (斥力/引力)</span>
+              <span id="val-gravity">1.2</span>
+            </div>
+            <input type="range" id="slider-gravity" min="-3" max="3" step="0.1" value="1.2" class="hud-slider" />
+          </div>
+        </div>
+      </section>
+
+      <!-- DIAGNOSTICS & AUDIO (RIGHT SIDE) -->
+      <section class="hud-diagnostics glass-card">
+        <div class="control-group">
+          <h2 class="control-label">📊 Accelerator Telemetry <span>加速器計測</span></h2>
+          <div class="telemetry-grid">
+            <div class="tel-item">
+              <span class="tel-tag">ACTIVE PARTICLES</span>
+              <span class="tel-val font-orbitron">80,000</span>
+            </div>
+            <div class="tel-item">
+              <span class="tel-tag">GPU DRAW CALLS</span>
+              <span class="tel-val font-orbitron">1 / Frame</span>
+            </div>
+            <div class="tel-item">
+              <span class="tel-tag">FPS METER</span>
+              <span class="tel-val font-orbitron" id="fps-val">--</span>
+            </div>
+            <div class="tel-item">
+              <span class="tel-tag">SHADING PIPELINE</span>
+              <span class="tel-val" style="font-size: 0.75rem; color: var(--hud-teal);">Custom GLSL</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <h2 class="control-label">🎙️ Audio Reactivity <span>音声・環境共鳴</span></h2>
+          <button class="hud-btn w-100" id="btn-audio-reactive">
+            📯 MIC SYNC MODE: OFF
+          </button>
+          
+          <!-- Bouncing Sci-Fi Audio Waves Grid -->
+          <div class="audio-wave-panel">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+          <span style="font-size: 0.6rem; color: rgba(255,255,255,0.4); display: block; margin-top: 6px; text-align: center;">
+            マイクを許可すると、周囲の音量に合わせて波動幅が変化します。
+          </span>
+        </div>
+
+        <div class="control-group">
+          <h2 class="control-label">🎬 Cinematic Director <span>演出カメラ</span></h2>
+          <button class="hud-btn w-100 btn-glow" id="btn-cinematic">
+            🚀 START CINEMATIC ORBIT
+          </button>
+        </div>
+      </section>
+
+      <!-- HUD BOTTOM GLOW TAGS -->
+      <footer class="hud-footer">
+        <span class="tag-left">SYS_OPER_SYS: VITE + BUN</span>
+        <span class="tag-right">&copy; 2026 QUANTUM GRAPHICS LAB</span>
+      </footer>
+
+    </div>
+
+    <!-- Click/Drag instructional overlay -->
+    <div class="drag-hint">
+      🖱️ Left-Click & Drag to Rotate Camera | Mouse Hover to warp particles with Gravity
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

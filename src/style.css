@@ -1,0 +1,406 @@
+/* Cosmic Portal Holographic HUD Styling */
+
+:root {
+  --hud-cyan: #00ffd5;
+  --hud-magenta: #ff00a0;
+  --hud-yellow: #ffea00;
+  --hud-bg-dark: #04080a;
+  --hud-font-family: 'Outfit', 'Noto Sans JP', sans-serif;
+  --hud-border-glow: 0 0 12px rgba(0, 255, 213, 0.25);
+  --hud-text-glow: 0 0 8px rgba(0, 255, 213, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--hud-bg-dark);
+  font-family: var(--hud-font-family);
+  color: #e2f3f5;
+  user-select: none;
+}
+
+/* WebGL Background Canvas */
+#webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: radial-gradient(circle at center, #0a1118 0%, #030507 100%);
+}
+
+/* HUD Container Grid Overlay */
+.hud-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 320px 1fr 340px;
+  grid-template-rows: auto 1fr auto;
+  gap: 20px;
+  pointer-events: none; /* Let clicks pass through to Three.js canvas */
+}
+
+/* Enable pointer events specifically for active panels */
+.glass-card, .hud-btn, .hud-slider {
+  pointer-events: auto;
+}
+
+/* Glassmorphism Sci-Fi Panels */
+.glass-card {
+  background: rgba(4, 12, 16, 0.65);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(0, 255, 213, 0.12);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 0 16px rgba(0, 255, 213, 0.05);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 255, 213, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 255, 213, 0.08), var(--hud-border-glow);
+}
+
+/* Header Panel styling */
+.hud-header {
+  grid-column: 1 / 4;
+  grid-row: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 12px 24px;
+  max-width: 500px;
+  margin: 0 auto;
+  border-bottom: 2px solid rgba(0, 255, 213, 0.3);
+}
+
+.hud-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--hud-cyan);
+  text-shadow: var(--hud-text-glow);
+  margin-bottom: 4px;
+  font-weight: 800;
+}
+
+.hud-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 6px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--hud-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hud-subtitle {
+  font-size: 0.7rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* Left controls & Right diagnostics positioning */
+.hud-controls {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: fit-content;
+  align-self: center;
+}
+
+.hud-diagnostics {
+  grid-column: 3 / 4;
+  grid-row: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: fit-content;
+  align-self: center;
+}
+
+/* Control Group structure */
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.control-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+  border-left: 3px solid var(--hud-cyan);
+  padding-left: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.control-label span {
+  font-size: 0.6rem;
+  opacity: 0.4;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Futuristic HUD Buttons */
+.btn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.grid-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.hud-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--hud-font-family);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+
+.hud-btn:hover {
+  background: rgba(0, 255, 213, 0.05);
+  border-color: rgba(0, 255, 213, 0.4);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(0, 255, 213, 0.15);
+}
+
+.hud-btn.active {
+  background: rgba(0, 255, 213, 0.12);
+  border-color: var(--hud-cyan);
+  color: var(--hud-cyan);
+  text-shadow: 0 0 6px rgba(0, 255, 213, 0.4);
+  box-shadow: 0 0 12px rgba(0, 255, 213, 0.15), inset 0 0 8px rgba(0, 255, 213, 0.08);
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.btn-glow {
+  border-color: var(--hud-magenta);
+  color: #fff;
+}
+
+.btn-glow:hover {
+  background: rgba(255, 0, 160, 0.1);
+  border-color: var(--hud-magenta);
+  box-shadow: 0 0 12px rgba(255, 0, 160, 0.3);
+}
+
+/* Digital Sliders styling */
+.slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.slider-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.5px;
+}
+
+.slider-info span:last-child {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--hud-cyan);
+  font-weight: 700;
+}
+
+.hud-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+  cursor: pointer;
+}
+
+.hud-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--hud-cyan);
+  box-shadow: 0 0 8px var(--hud-cyan);
+  transition: transform 0.1s;
+}
+
+.hud-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+}
+
+/* Telemetry Grid display */
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.tel-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tel-tag {
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1px;
+}
+
+.tel-val {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 4px;
+}
+
+.font-orbitron {
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Bouncing CSS audio frequency analyzer simulation */
+.audio-wave-panel {
+  height: 40px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding: 6px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.wave-bar {
+  width: 6%;
+  height: 10%;
+  background-color: var(--hud-cyan);
+  border-radius: 2px 2px 0 0;
+  transition: height 0.1s ease-out;
+  box-shadow: 0 0 4px rgba(0, 255, 213, 0.4);
+}
+
+/* Multi colors waves for diagnostic aesthetics */
+.wave-bar:nth-child(even) {
+  background-color: var(--hud-magenta);
+  box-shadow: 0 0 4px rgba(255, 0, 160, 0.4);
+}
+
+/* Footer Tag Bars */
+.hud-footer {
+  grid-column: 1 / 4;
+  grid-row: 3 / 4;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 10px;
+}
+
+/* User drag/navigation instructions overlay */
+.drag-hint {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  background: rgba(4, 12, 16, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 1px;
+  pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 900px) {
+  .hud-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    overflow-y: auto;
+    padding: 16px;
+    height: 100%;
+    pointer-events: auto;
+  }
+  
+  .hud-header {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+  
+  .hud-controls {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    width: 100%;
+  }
+  
+  .hud-diagnostics {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    width: 100%;
+  }
+  
+  .hud-footer {
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .drag-hint {
+    display: none;
+  }
+}
