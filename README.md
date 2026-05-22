@@ -1,0 +1,144 @@
+# 🌌 Cosmic Particle Portal Visualizer (宇宙的ポータル・パーティクル・ビジュアライザー)
+
+GPU駆動の超高性能3D粒子シミュレーションと、サイバーパンク風の未来的なガラスモーフィズムHUDコントロールパネルを融合させた、インタラクティブなWebGLビジュアライザーです。
+
+[English version below](#-english-version)
+
+---
+
+## 🚀 特徴
+
+### 1. GPU駆動の超高速パーティクルコア (80,000+ 粒子)
+JavaScriptによるCPUボトルネックを完全に回避するため、粒子の位置補間や波の歪み、マウスの重力シミュレーションはすべて**カスタムGLSL（Vertex/Fragment Shader）**を介してGPU上で直接処理されます。これにより、60+ FPSの超低遅延で滑らかなアニメーションを実現しています。
+
+#### 🌀 4つの幾何学フォーメーション
+* **Swirling Cosmic Nebula (星雲系):** 中心部が高密度な、対数螺旋状の3本腕の銀河構造。
+* **Quantum Black Hole (量子ブラックホール):** 中心部の暗黒コアに向けて、超高速で回転する薄い吸着円盤。
+* **Double Helix DNA (生命の二重らせん):** 縦方向に絡み合い、エネルギーのように光るらせん梯子。
+* **Hyperdimensional Torus (次元トーラス):** 相互に交差し、内側へ向けて複雑に回転し続ける立体リング。
+
+### 2. インタラクティブな操作とエフェクト
+* **マウス重力フィールド (Mouse Gravity Physics):** マウスの移動に合わせて3次元空間内に重力ベクトルをキャストし、近くの粒子を引き寄せたり反発させたりします。
+* **マイク＆オーディオ周波数同期 (Real-time Audio Reactivity):** マイク入力の低周波・中周波成分をキャプチャし、音楽や部屋の音に合わせてリアルタイムに粒子のサイズやうねりを伸縮させます（無効時は自動的なアンビエント合成波形に切り替わります）。
+* **シネマティック監督モード (Cinematic Director Mode):** 自動的にカメラ軌道制御を乗っ取り、ポータルの中心をくぐり抜けるような美しい飛行アニメーションを行います。
+
+### 3. 未来的なサイバーパンクHUDコントロールパネル
+* **Glassmorphism UI:** 透明感のあるガラス調の未来派ダッシュボード。
+* **リアルタイム計測器:** FPS、粒子数、オーディオ入力インジケーター、カメラ座標をリアルタイムで表示。
+* **微調整スライダー:** 渦の回転速度、ノイズの振幅、重力の影響度合いなどをリアルタイムで操作可能。
+
+---
+
+## 🛠️ テクノロジー・スタック
+
+* **ランタイム / パッケージマネージャー:** [Bun](https://bun.sh/)
+* **ビルドツール:** [Vite](https://vite.dev/) (Vanilla TypeScript)
+* **3D グラフィックス:** [Three.js](https://threejs.org/) + カスタム **GLSL (WebGL Shaders)**
+* **アニメーション:** [GSAP (GreenSock)](https://gsap.com/)
+* **スタイリング:** Vanilla CSS (完全なレスポンシブデザイン、ダークモード、微細なアニメーション)
+
+---
+
+## 🏃 開発と実行方法
+
+ローカル環境でプロジェクトをセットアップして起動する手順です。
+
+### 1. 依存関係のインストール
+```bash
+bun install
+```
+
+### 2. 開発サーバーの起動
+```bash
+bun run dev
+```
+起動後、ブラウザで **`http://localhost:5173/`** を開きます。
+
+### 3. プロダクションビルドの生成
+```bash
+bun run build
+```
+`dist/` フォルダに最適化された静的ファイルが出力されます。
+
+### 4. ビルド成果物のローカルプレビュー
+```bash
+bun run preview
+```
+
+---
+
+## 📝 ライセンス
+本プロジェクトは MIT ライセンスの下で公開されています。
+
+---
+
+<br>
+<br>
+
+# 🌌 English Version
+
+An interactive WebGL cosmic visualizer combining GPU-driven, high-performance 3D particle simulations with a futuristic cyberpunk glassmorphism HUD dashboard.
+
+---
+
+## 🚀 Features
+
+### 1. GPU-Driven Particle Engine (80,000+ Particles)
+To bypass standard CPU bottleneck issues in JavaScript, all particle coordinates, spatial noise, and cursor gravity fields are computed directly on the GPU using **custom GLSL Vertex & Fragment Shaders**. This guarantees a stable 60+ FPS visual experience.
+
+#### 🌀 4 Dynamic Formations
+* **Swirling Cosmic Nebula:** A beautiful 3-arm logarithmic spiral galaxy with dense clusters near the center.
+* **Quantum Black Hole:** A ultra-thin accretion disk swirling around a dark gravitational core.
+* **Double Helix DNA:** Two twisted strands pulsating vertically with energetic molecular linkages.
+* **Hyperdimensional Torus:** Complex intersecting rings rotating internally in multidimensional coordinate space.
+
+### 2. High-Fidelity Physics & Real-Time Interactions
+* **Mouse Gravity Physics:** Casts a spatial gravity vector using raycasting. Moving your cursor repels or attracts nearby particles dynamically.
+* **Real-time Audio Reactivity:** Connects to the Web Audio API to map microphone frequency levels, scaling particle sizes and noise speeds to surrounding music (switches to ambient audio waves if permission is withheld).
+* **Cinematic Director Mode:** Autonomously controls camera orbits to create breathtaking flights directly through the portal core.
+
+### 3. Cybernetic Glassmorphic Control Panel
+* **Glassmorphic UI Overlay:** Holographic panels styled with CSS glassmorphism, glowing telemetry lines, and interactive ranges.
+* **Dynamic Indicators:** Displays real-time FPS telemetry, active particle nodes, sound frequencies, and camera coordinates.
+* **Tuning Controls:** Real-time range sliders for rotation speeds, vertex displacement, noise frequencies, and gravity strength.
+
+---
+
+## 🛠️ Technology Stack
+
+* **Runtime & Package Manager:** [Bun](https://bun.sh/)
+* **Build Bundler:** [Vite](https://vite.dev/) (Vanilla TypeScript)
+* **3D Engine:** [Three.js](https://threejs.org/) + **Custom GLSL (WebGL Shaders)**
+* **Transitions:** [GSAP (GreenSock)](https://gsap.com/)
+* **Styles:** Custom Vanilla CSS (fluid responsiveness, glow filters, keyframes)
+
+---
+
+## 🏃 Getting Started
+
+### 1. Install Dependencies
+```bash
+bun install
+```
+
+### 2. Start Development Server
+```bash
+bun run dev
+```
+Open **`http://localhost:5173/`** in your browser.
+
+### 3. Production Build
+```bash
+bun run build
+```
+Generates highly optimized, minified assets into the `dist/` directory.
+
+### 4. Preview Production Build
+```bash
+bun run preview
+```
+
+---
+
+## 📝 License
+This project is open-source under the MIT License.
