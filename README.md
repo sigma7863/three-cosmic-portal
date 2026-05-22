@@ -8,6 +8,41 @@ GPU駆動の超高性能3D粒子シミュレーションと、サイバーパン
 
 ---
 
+## 📂 ディレクトリ構造とモジュール構成
+
+メンテナンス性と可読性を向上させるため、本プロジェクトは密結合を避けたクリーンなモジュール（コンポーネント）設計を採用しています。
+
+```
+src/
+  ├── main.ts (全体のオーケストレーター・エントリーポイント)
+  ├── shaders/
+  │    └── portalShaders.ts (GLSLカスタムシェーダー文字列)
+  ├── style.css (未来派HUDダッシュボードのCSS)
+  └── modules/
+       ├── geometries.ts (星雲やブラックホールの数学的座標計算ジェネレーター)
+       ├── audio.ts (マイク同期・周波数解析・疑似波形合成を行う AudioController)
+       ├── director.ts (Three.js描画コンテキスト・マウス重力Raycast・自動軌道飛行を行う Director)
+       ├── particles.ts (WebGL粒子メッシュ・マテリアル・GSAPモーフィングを行う ParticleSystem)
+       └── hud.ts (HUDスライダー操作・ボタン切替・FPSカウンター等のUI制御を行う HUDController)
+```
+
+### 各クラス・モジュールの詳細説明
+
+* **`main.ts` (エントリーポイント)**
+  各モジュールクラスをインスタンス化して初期化し、統一された `requestAnimationFrame` レンダリング・フレームループ内でそれぞれの更新処理（`update()`）を綺麗に呼び出すオーケストレーターです。
+* **`Director` (modules/director.ts)**
+  Three.jsの `Scene`, `Camera`, `WebGLRenderer`, `OrbitControls` のコンテキストを管理します。さらに、マウスクライアント座標をWebGLの3次元空間（z-plane）に投影（Raycasting）し、そのターゲット座標に向けてイージング（`lerp`）付きで滑らかに移動する重力原点座標 (`activeMouse3D`) を計算・提供します。また、シネマティック軌道飛行も制御します。
+* **`ParticleSystem` (modules/particles.ts)**
+  `THREE.Points` メッシュ、独自の `BufferGeometry`、およびGLSLカスタムシェーダーマテリアルをカプセル化します。形状切り替え時は、GSAPを使用してGPUシェーダーユニフォーム `uProgress` を 0.0〜1.0 に補間アニメーションさせることで、超軽量かつ滑らかなモーフィング演出を行います。
+* **`AudioController` (modules/audio.ts)**
+  Web Audio APIを活用してマイクのオーディオストリームをキャプチャし、64個のFFT（高速フーリエ変換）周波数ビンの低中音域ボリューム値を取得します。また、ブラウザでマイクが許可されていない場合は、時間をパラメータにした数式の重ね合わせで綺麗なビートを刻むアンビエント合成波形を自動的に生成します。
+* **`HUDController` (modules/hud.ts)**
+  HTML UI上のスライダーの操作量（回転速度、ノイズ周波数、重力強度など）をそれぞれのモジュール・シェーダーパラメータに即座に反映します。また、毎秒のフレーム数をカウントし、未来風の画面に「FPS」としてリアルタイム描画する telemetry 機能も内包しています。
+* **`geometries.ts` (modules/geometries.ts)**
+  一切の描画・UIに依存せず、純粋な数学的公式（対数螺旋、極座標球体マッピング、二重らせん螺旋、トーラス極座標変換）に基づいて、80,000個の粒子の生座標（`Float32Array`）を計算して返します。
+
+---
+
 ## 🚀 特徴
 
 ### 1. GPU駆動の超高速パーティクルコア (80,000+ 粒子)
