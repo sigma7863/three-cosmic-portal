@@ -1,4 +1,4 @@
-# 🌌 Cosmic Particle Portal Visualizer (宇宙的ポータル・パーティクル・ビジュアライザー)
+# 🌌 Cosmic Particle Portal Visualizer (宇宙的ポータル・パーティクル・ビジュアライザー) - Antigravity CLIで構築
 
 **日本語** | [English](README.en.md)
 
